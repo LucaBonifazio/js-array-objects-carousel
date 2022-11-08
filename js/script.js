@@ -26,80 +26,64 @@ const arrImages = [
 	},
 ];
 
-const eleSliderViewer = document.querySelector('.slider-viewer');
-renderInterface(eleSliderViewer);
-const eleSliderThumbs = document.querySelector('.thumbs');
-const eleBtnLeft = document.querySelector('.btn-left');
-const eleBtnRight = document.querySelector('.btn-right');
+const eleSlider = document.querySelector('.slider');
+renderInterface(eleSlider);
+// const eleVerticalSlider = document.querySelector('.vertical-slider');
+// renderInterface(eleVerticalSlider);
+const eleBtnUp = document.querySelector('.btn-up');
+const eleBtnDown = document.querySelector('.btn-down');
+const listEleImg = document.querySelectorAll('.slider-img');
+let activeIndex = 0;
 
-function renderInterface(eleSliderViewer) {
-	arrImages.forEach(objImage => eleSliderViewer.innerHTML += geneateSlider(objImage));
+
+function renderInterface(eleSlider) {
+	arrImages.forEach(objImage => eleSlider.innerHTML += generateSlider(objImage));
 }
 
-function geneateSlider(obj) {
+function generateSlider(obj) {
 	return `
-			<div class="slider-img">
-				<img src="img/${obj.image}" alt="${obj.title}">
-				<h2>${obj.title}</h2>
-				<h3>${obj.text}</h3>
-			</div>
-		`;
+        <div class="slider-img">
+            <img src="img/${obj.image}" alt="${obj.title}">
+            <h2>${obj.title}</h2>
+            <p>${obj.text}</p>
+        </div>
+    `;
 }
 
-function renderInterface(eleSliderThumbs) {
-	arrImages.forEach(objImageSmall => eleSliderThumbs.innerHTML += geneateSliderSmall(objImageSmall));
-}
+// function renderInterfaceSmall(eleVerticalSlider) {
+// 	arrImages.forEach(objImageSmall => eleVerticalSlider.innerHTML += geneateSliderSmall(objImageSmall));
+// }
 
-function geneateSliderSmall(obj) {
-	return `
-			<div class="thumbs-img">
-				<img src="img/${obj.image}" alt="${obj.title}">
-			</div>
-		`;
-}
+// function geneateSliderSmall(obj) {
+// 	return `
+// 			<div class="thumbs-img">
+// 				<img src="img/${obj.image}" alt="${obj.title}">
+// 			</div>
+// 		`;
+// }
 
-// aggiungere gli event listeners ai due bottoni
-// eleBtnRight.addEventListener('click', function () {
-// 	// togliere la classe active dall'elemento attivo corrente
-// 	listEleImg[activeIndex].classList.remove('active');
-// 	listThumbs[activeIndex].classList.remove('active');
+eleBtnDown.addEventListener('click', function () {
 
-// 	// incrementare l'active index con reset per slider infinito
-// 	/*
-// 	if (activeIndex === listEleImg.length - 1) {
-// 		activeIndex = 0;
-// 	} else {
-// 		activeIndex++;
-// 	}
-// 	*/
+	listEleImg[activeIndex].classList.remove('active');
+	
+	if (activeIndex === listEleImg.length -1) {
+		activeIndex = 0;
+	} else {
+		activeIndex++;
+	}
 
-// 	activeIndex++;
-// 	if (activeIndex === listEleImg.length) {
-// 		activeIndex = 0;
-// 	}
+	listEleImg[activeIndex].classList.add('active');
+});
 
-// 	// aggiungere la classe active all'elemento successivo
-// 	listEleImg[activeIndex].classList.add('active');
-// 	listThumbs[activeIndex].classList.add('active');
-// 	document.body.style.backgroundImage = `url('${arrImages[activeIndex]}')`;
-// 	document.body.style.backgroundSize = 'cover';
-// });
+eleBtnUp.addEventListener('click', function () {
+	
+	listEleImg[activeIndex].classList.remove('active');
 
-// eleBtnLeft.addEventListener('click', function () {
-// 	// togliere la classe active dall'elemento attivo corrente
-// 	listEleImg[activeIndex].classList.remove('active');
-// 	listThumbs[activeIndex].classList.remove('active');
+	if (activeIndex === 0) {
+		activeIndex = listEleImg.length -1;
+	} else {
+		activeIndex--;
+	}
 
-// 	// decrementare l'active index con reset per slider infinito
-// 	/*
-// 	if (activeIndex === 0) {
-// 		activeIndex = listEleImg.length - 1;
-// 	} else {
-// 		activeIndex--;
-// 	}
-// 	*/
-
-// 	if (activeIndex === 0) {
-// 		activeIndex = listEleImg.length;
-// 	}
-// 	activeIndex--;
+	listEleImg[activeIndex].classList.add('active');
+});

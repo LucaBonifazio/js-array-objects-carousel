@@ -26,64 +26,67 @@ const arrImages = [
 	},
 ];
 
-const eleSlider = document.querySelector('.slider');
-renderInterface(eleSlider);
-// const eleVerticalSlider = document.querySelector('.vertical-slider');
-// renderInterface(eleVerticalSlider);
-const eleBtnUp = document.querySelector('.btn-up');
-const eleBtnDown = document.querySelector('.btn-down');
-const listEleImg = document.querySelectorAll('.slider-img');
+const eleSliderViewer = document.querySelector('.slider-viewer');
+const eleSliderThumbs = document.querySelector('.thumbs');
+const eleBtnLeft = document.querySelector('.btn-left');
+const eleBtnRight = document.querySelector('.btn-right');
+
+for (let i = 0; i < arrImages.length; i++) {
+	const objSlide = arrImages[i];
+	const eleSlide = document.createElement('div');
+	eleSlide.classList.add('slide');
+	eleSlide.innerHTML = `
+		<img src="img/${objSlide.image}" alt="${objSlide.title}">
+		<div class="text">
+			<h2>${objSlide.title}</h2>
+			<p>${objSlide.text}</p>
+		</div>
+	`;
+
+	if (i === 0) {
+		eleSlide.classList.add('active');
+	}
+	eleSliderViewer.append(eleSlide);
+	const eleThumb = document.createElement('img');
+	eleThumb.src = 'img/' + objSlide.image;
+	eleThumb.classList.add('thumb-img');
+	if (i === 0) {
+		eleThumb.classList.add('active');
+	}
+	eleSliderThumbs.append(eleThumb);
+}
+
+const listEleImg = document.querySelectorAll('.slide');
+const listThumbs = document.querySelectorAll('.thumb-img');
 let activeIndex = 0;
+document.body.style.backgroundImage = `url('img/${arrImages[activeIndex].image}')`;
 
-
-function renderInterface(eleSlider) {
-	arrImages.forEach(objImage => eleSlider.innerHTML += generateSlider(objImage));
-}
-
-function generateSlider(obj) {
-	return `
-        <div class="slider-img">
-            <img src="img/${obj.image}" alt="${obj.title}">
-            <h2>${obj.title}</h2>
-            <p>${obj.text}</p>
-        </div>
-    `;
-}
-
-// function renderInterfaceSmall(eleVerticalSlider) {
-// 	arrImages.forEach(objImageSmall => eleVerticalSlider.innerHTML += geneateSliderSmall(objImageSmall));
-// }
-
-// function geneateSliderSmall(obj) {
-// 	return `
-// 			<div class="thumbs-img">
-// 				<img src="img/${obj.image}" alt="${obj.title}">
-// 			</div>
-// 		`;
-// }
-
-eleBtnDown.addEventListener('click', function () {
-
-	listEleImg[activeIndex].classList.remove('active');
+eleBtnRight.addEventListener('click', function () {
 	
-	if (activeIndex === listEleImg.length -1) {
+	listEleImg[activeIndex].classList.remove('active');
+	listThumbs[activeIndex].classList.remove('active');
+
+	activeIndex++;
+	if (activeIndex === listEleImg.length) {
 		activeIndex = 0;
-	} else {
-		activeIndex++;
 	}
 
 	listEleImg[activeIndex].classList.add('active');
+	listThumbs[activeIndex].classList.add('active');
+	document.body.style.backgroundImage = `url('img/${arrImages[activeIndex].image}')`;
 });
 
-eleBtnUp.addEventListener('click', function () {
-	
+eleBtnLeft.addEventListener('click', function () {
+
 	listEleImg[activeIndex].classList.remove('active');
+	listThumbs[activeIndex].classList.remove('active');
 
 	if (activeIndex === 0) {
-		activeIndex = listEleImg.length -1;
-	} else {
-		activeIndex--;
+		activeIndex = listEleImg.length;
 	}
+	activeIndex--;
 
 	listEleImg[activeIndex].classList.add('active');
+	listThumbs[activeIndex].classList.add('active');
+	document.body.style.backgroundImage = `url('img/${arrImages[activeIndex].image}')`;
 });
